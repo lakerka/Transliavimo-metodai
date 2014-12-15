@@ -1,0 +1,60 @@
+#
+# BNF gramatika apibūdinanti pasirinktą kalbą. 
+#
+# Kursas "Transliavimo metodai" (TMET2114) 2014/2015 m. rudens semestras
+# Atliko: Žilvinas Rudžionis, Programų sistemos, 3 grupė, 118 variantas
+# 
+
+# šakninė dokumento žymė
+<OEB> ::= <XMLVerion> <DOCTYPE> <Package>
+<XMLVersion> ::= '<?xml version=' <AttributeVal> '?>'
+<DOCTYPE>    ::= '<!DOCTYPE package PUBLIC' <AttributeVal> '>'
+
+# Package tags
+<PackageTag> ::= '<package' <PackageTagAttribute> '>' <MetadataTag> <ManifestTag> <SpineTag> <GuideTag> <VersionTag> '</package>'
+<PackageTagAttribute> := 'unique-identifier=' <AttributeVal>
+
+# Metadata tags
+<MetadataTag> ::= '<metadata>' <DcMetadataTag> '</metadata>'
+<DcMetadataTag> ::= '<dc-metadata' <DcMetadataTagAttribute> '>' <Dc> '</dc-metadata>'
+<DcMetadataTagAttribute> ::= ('xmlns:dc'|'xmlns:oebpackage') '=' <AttributeVal> | <DcMetadataTagAttribute>
+<Dc> ::= <DcIdTag> | <DcTitleTag> | <DcTypeTag> | <DcCreatorTag> | <DcContributorTag> | <Dc> | ''
+
+# Dc tags
+<DcIdTag> ::= '<dc:Identifier' <DcIdTagAttribute> '>' <Text> '</dc:Identifier>'
+<DcIdTagAttribute> ::= 'id=' <AttributeVal>
+
+<DcTitleTag> ::= '<dc:Title>' <Text> '</dc:Title>'
+
+<DcTypeTag> ::= '<dc:Type>' <Text> '</dc:Type>'
+
+<DcCreatorTag> ::= '<dc:Creator' <DcCreatorTagAttribute> '>' <Text> '</dc:Creator>'
+<DcCreatorTagAttribute> ::= ('file-as'|'role') '=' <AttributeVal> <DcCreatorTagAttribute> | ''
+
+<DcContributorTag> ::= '<dc:Contributor>' <Text> '</dc:Contributor>'
+
+
+# Manifest tags
+<ManifestTag> ::= '<manifest>' <ItemTag> '</manifest>'
+<ItemTag> ::= '<item' <ItemTagAttribute '/>'
+<ItemTagAttribute> ::= ('id'|'href'|'media-type') '=' <AttributeVal> <ItemTagAttribute> | ''
+
+# Spine tags
+<SpineTag> ::= '<spine>' <ItemRefTag> '</spine>'
+<ItemRefTag> ::= '<itemref' <ItemRefTagAttribute> '/>' <ItemRefTag> | ''
+<ItemRefTagAttribute> ::= 'idref=' <AttributeVal>
+
+# Guide tags
+<GuideTag> ::= '<guide>' <ReferenceTag> '</guide>'
+<ReferenceTag> ::= '<reference' <ReferenceTagAttribute> '/>' <ReferenceTag> | ''
+<ReferenceTagAttribute> ::= ('type'|'title'|'href') '=' <AttributeVal> <ReferenceTagAttribute> | ''
+
+# Version 
+<VersionTag> ::= '<version>' <NumberTag> '</version>'
+<NumberTag> ::= '<number' <NumberTagAttribute> '>' <Text> '</number>'
+<NumberTagAttribute> ::= ('type') '='  <AttributeVal> | ''
+
+<AttributeVal> ::= '"' <AttributeText> '"'
+<AttributeText> ::= <Text>
+<Text> ::= <Printable> | <Printable> <Text>
+<Printable> ::= {Any printable symbol}

@@ -1,0 +1,9 @@
+#define ATTR 257
+#define LESS 258
+#define MORE 259
+#define EQ 260
+#define QUOTE 261
+#define XML_VERSION_OPEN 262
+#define XML_VERSION_CLOSE 263
+#define TAG_VALUE 264
+#define ATTR_VALUE 265

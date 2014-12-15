@@ -1,0 +1,98 @@
+   0  $accept : root $end
+
+   1  root : xmlVersion
+
+   2  xmlVersion : LESS attr MORE
+
+   3  attr : ATTR attrVal
+
+   4  attrVal : EQ QUOTE ATTR_VALUE QUOTE
+
+state 0
+	$accept : . root $end  (0)
+
+	LESS  shift 1
+	.  error
+
+	root  goto 2
+	xmlVersion  goto 3
+
+
+state 1
+	xmlVersion : LESS . attr MORE  (2)
+
+	ATTR  shift 4
+	.  error
+
+	attr  goto 5
+
+
+state 2
+	$accept : root . $end  (0)
+
+	$end  accept
+
+
+state 3
+	root : xmlVersion .  (1)
+
+	.  reduce 1
+
+
+state 4
+	attr : ATTR . attrVal  (3)
+
+	EQ  shift 6
+	.  error
+
+	attrVal  goto 7
+
+
+state 5
+	xmlVersion : LESS attr . MORE  (2)
+
+	MORE  shift 8
+	.  error
+
+
+state 6
+	attrVal : EQ . QUOTE ATTR_VALUE QUOTE  (4)
+
+	QUOTE  shift 9
+	.  error
+
+
+state 7
+	attr : ATTR attrVal .  (3)
+
+	.  reduce 3
+
+
+state 8
+	xmlVersion : LESS attr MORE .  (2)
+
+	.  reduce 2
+
+
+state 9
+	attrVal : EQ QUOTE . ATTR_VALUE QUOTE  (4)
+
+	ATTR_VALUE  shift 10
+	.  error
+
+
+state 10
+	attrVal : EQ QUOTE ATTR_VALUE . QUOTE  (4)
+
+	QUOTE  shift 11
+	.  error
+
+
+state 11
+	attrVal : EQ QUOTE ATTR_VALUE QUOTE .  (4)
+
+	.  reduce 4
+
+
+11 terminals, 5 nonterminals
+5 grammar rules, 12 states

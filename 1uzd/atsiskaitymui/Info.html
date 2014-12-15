@@ -1,0 +1,156 @@
+<!--
+- Informacinis failas html formatu. 
+-
+- Kursas "Transliavimo metodai" (TMET2114) 2014/2015 m. rudens semestras
+- Atliko: Žilvinas Rudžionis, Programų sistemos, 3 grupė, 118 variantas
+-
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    </head>
+    <body>
+        <h1>Pirmasis praktinis darbas</h1>
+        <table border="1">
+            <tr>
+                <th>Dalykas</th>
+                <td>Transliavimo metodai</td>
+            </tr>
+            <tr>
+                <th>Variantas</th>
+                <td>118 (Open eBook Publication Structure)</td>
+            </tr>
+            <tr>
+                <th>Atliko</th>
+                <td>Žilvinas Rudžionis</td>
+            </tr>
+            <tr>
+                <th>Grupė</th>
+                <td>3</td>
+            </tr>
+            <tr>
+                <th>Studijų programa</th>
+                <td>Programų sistemos</td>
+            </tr>
+            <tr>
+                <th>Kursas</th>
+                <td>4</td>
+            </tr>
+        </table>
+        <h2>Kalbos semantika laisva forma</h2>
+        <p>
+            Open eBook Publication Structure (OEBPS) specifikacija skirta aprašyti informacijai susijusiai knygos publikacija.
+OEBS dokumentas yra pateikiamas  XML formatu. Vienas dokumentas turi turėti tik vieną
+            <strong>package</strong>
+            žymę, kurioje detalizuojama publikacijos informacija.
+        </p>
+        <p>
+            Informacija apie
+            <strong>package</strong>
+            žymės vaikines žymes:
+            <dl>
+                <dt><strong>metadata</strong></dt>
+                <dd>aprašomi publikacijos meta duomenys</dd>
+                <dt><strong>manifest</strong></dt>
+                <dd>aprašomas sąrašas dokumentų, sudarančių publikaciją</dd>
+                <dt><strong>spine</strong></dt>
+                <dd>aprašoma publikaciją sudarančių dokumentų skaitymo tvarka</dd>
+                <dt><strong>guide</strong></dt>
+                <dd>aprašomos nuorodos į elementus, tokius kaip turinys, bibliografija ir pan.</dd>
+                <dt><strong>version</strong></dt>
+                <dd>Šią žymę pridėjau pats norėdamas turėti galimybę įvertinti algebrinius reiškinius. Šios žymės vaikinė žymė yra 
+                    <strong>number</strong>
+                    žymė turinti atributą <strong>type</strong>, kurio reikšmė yra <strong>expression</strong>. Žymės viduje gali būti algebrinės išraiškos pvz.: 2+6*3.
+                </dd>
+            </dl>
+        </p>
+        
+        <h2>Analizė ar lex rezultatas tinkamas/netinkamas panaudoti skaneryje</h2>
+        <p>Lex rezultatas sugeba apdoroti ypatingas žymes:</p>
+
+        <ul>
+            <li>&lt;?xml version=&quot;1.0&quot; ?&gt;</li>
+            <li>&lt;!DOCTYPE package PUBLIC &quot;+//ISBN 0-9673008-1-9//DTD OEB 1.0 Package//EN&quot; &quot;oebpkg1.dtd&quot;&gt;</li>
+        </ul>
+
+        <p>Taipogi gebama apdoroti:</p>
+
+        <ul>
+            <li>Paprastų žymių neturinčias atributų pradžią<br />
+            &lt;metadata&gt;</li>
+            <li>Žymių pabaigą:<br />
+            &lt;/metadata&gt;<br />
+            </li>
+            <li>Žymes su atributais(atributų gali būti daugiau negu vienas):<br />
+            &lt;package unique-identifier=&quot;uid&quot;&gt;</li>
+            <li>Žymes su prefiksu:<br />
+            &lt;dc:Contributor&gt;Adobe&lt;/dc:Contributor&gt;</li>
+            <li>Žymes, turinčias kūną:<br />
+            &lt;number type=&quot;expression&quot;&gt;2+3+5*2+6*8&lt;/number&gt;<br />
+            </li>
+            <li>Žymes, kurios i&scaron;karto užsibaigia ir neturi kūno:<br />
+            &lt;itemref idref=&quot;spec&quot; /&gt;<br />
+            </li>
+            <li>Žymes, ypatingais atributais:<br />
+            &lt;dc-metadata xmlns:dc=&quot;http://purl.org/dc/elements/1.0/&quot; xmlns:oebpackage=&quot;http://openebook.org/namespaces/oeb-package/1.0/&quot;&gt;<br />
+            </li>
+        </ul>
+        <p>Kadangi gebamos apdoroti dokumento žymės, atributai ir jų reikšmės, rezultatas yra tinkamas panaudojimui.</p>
+
+        <h2>Atlikto darbo palyginimas</h2>
+        <p>Peržvelgiant atliktą darbą buvo pastebėta, kad kai kuriuos lex failo būsenos turi struktūrą&nbsp;:</p>
+
+        <p>&lt;BŪSENA&gt;{</p>
+
+        <p>[įvairios reguliarios i&scaron;rai&scaron;kos ir joms priskiriami veiksmai]</p>
+
+        <p>&nbsp;.</p>
+
+        <p>}</p>
+
+        <p>Atliktame darbe neatpažintos strukūros yra ignoruojamos. Mano darbe, kiekvienas skanerio rezultatas yra pateikiamas: [rezultatas], tad jeigu kokia nors strukūra yra neatpažystama, ji yra grąžinama, kaip:</p>
+
+        <ul>
+            <li>[rezultatas]kažkas</li>
+        </ul>
+
+        <p>arba&nbsp;</p>
+
+        <ul>
+            <li>kažkas</li>
+        </ul>
+
+        <p>Mūsų pasirinktas pradinių duomenų apdorojimas skiriasi, tuo, kad manasis yra griežtesnis ir reikalauja, kad pradiniai duomenys būtų teisingi, kitaip skanerio rezultatas bus neteisingo formato. Kita vertus nagrinėto darbo pradinių duomenų apdorojimas yra laisvesnės formos ir visos neatpažintos sekos yra tiesiog ignoruojamos.</p>
+
+        <h2>Pateiktų failų sąrašas</h2>
+        <dl>
+            <dt>Kalbos sintaksë BNF forma</dt>
+            <dd>
+                <a href="moeb.bnf">moeb.bnf</a>
+            </dd>
+            <dt>Kalbos vienetų apibrėžimas lex stiliumi</dt>
+            <dd>
+                <a href="moeb.l">moeb.l</a>
+            </dd>
+            <dt>Skanerio išeities tekstas</dt>
+            <dd>
+                <a href="lex.yy.c">lex.yy.c</a>
+            </dd>
+            <dt>Make failas</dt>
+            <dd>
+                <a href="Makefile">Makefile</a>
+            </dd>
+            <dt>Bash skriptas skanerio paleidimui UNIX aplinkoje</dt>
+            <dd>
+                <a href="run.sh">run.sh</a>
+            </dd>
+            <dt>Batch skriptas skanerio paleidimui DOS aplinkoje</dt>
+            <dd>
+                <a href="run.bat">run.bat</a>
+            </dd>
+        </dl>
+    </body>
+</html>
