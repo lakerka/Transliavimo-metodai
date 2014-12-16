@@ -1,0 +1,298 @@
+   0  $accept : root $end
+
+   1  root : dcMetadata
+
+   2  dcMetadata : dcMetadataStart dcMetadataBody dcMetadataEnd
+
+   3  dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE
+
+   4  dcMetadataBody : dcMetadataCreators
+
+   5  dcMetadataEnd : LESS CLOSE DC_METADATA_TAG MORE
+
+   6  dcMetadataCreators : dcMetadataCreators dcMetadataCreator
+   7                     |
+
+   8  dcMetadataCreator : dcMetadataCreatorStart dcMetadataCreatorBody dcMetadataCreatorEnd
+
+   9  dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal MORE
+
+  10  dcMetadataCreatorBody : TAG_VALUE
+
+  11  dcMetadataCreatorEnd : LESS CLOSE DC_CREATOR_TAG MORE
+
+  12  attrVal : EQ QUOTE ATTR_VALUE QUOTE
+
+state 0
+	$accept : . root $end  (0)
+
+	LESS  shift 1
+	.  error
+
+	root  goto 2
+	dcMetadata  goto 3
+	dcMetadataStart  goto 4
+
+
+state 1
+	dcMetadataStart : LESS . DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (3)
+
+	DC_METADATA_TAG  shift 5
+	.  error
+
+
+state 2
+	$accept : root . $end  (0)
+
+	$end  accept
+
+
+state 3
+	root : dcMetadata .  (1)
+
+	.  reduce 1
+
+
+state 4
+	dcMetadata : dcMetadataStart . dcMetadataBody dcMetadataEnd  (2)
+	dcMetadataCreators : .  (7)
+
+	.  reduce 7
+
+	dcMetadataBody  goto 6
+	dcMetadataCreators  goto 7
+
+
+state 5
+	dcMetadataStart : LESS DC_METADATA_TAG . DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (3)
+
+	DC_METADATA_ATTRIBUTE_NAME  shift 8
+	.  error
+
+
+state 6
+	dcMetadata : dcMetadataStart dcMetadataBody . dcMetadataEnd  (2)
+
+	LESS  shift 9
+	.  error
+
+	dcMetadataEnd  goto 10
+
+
+7: shift/reduce conflict (shift 11, reduce 4) on LESS
+state 7
+	dcMetadataBody : dcMetadataCreators .  (4)
+	dcMetadataCreators : dcMetadataCreators . dcMetadataCreator  (6)
+
+	LESS  shift 11
+
+	dcMetadataCreator  goto 12
+	dcMetadataCreatorStart  goto 13
+
+
+state 8
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME . attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (3)
+
+	EQ  shift 14
+	.  error
+
+	attrVal  goto 15
+
+
+state 9
+	dcMetadataEnd : LESS . CLOSE DC_METADATA_TAG MORE  (5)
+
+	CLOSE  shift 16
+	.  error
+
+
+state 10
+	dcMetadata : dcMetadataStart dcMetadataBody dcMetadataEnd .  (2)
+
+	.  reduce 2
+
+
+state 11
+	dcMetadataCreatorStart : LESS . DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal MORE  (9)
+
+	DC_CREATOR_TAG  shift 17
+	.  error
+
+
+state 12
+	dcMetadataCreators : dcMetadataCreators dcMetadataCreator .  (6)
+
+	.  reduce 6
+
+
+state 13
+	dcMetadataCreator : dcMetadataCreatorStart . dcMetadataCreatorBody dcMetadataCreatorEnd  (8)
+
+	TAG_VALUE  shift 18
+	.  error
+
+	dcMetadataCreatorBody  goto 19
+
+
+state 14
+	attrVal : EQ . QUOTE ATTR_VALUE QUOTE  (12)
+
+	QUOTE  shift 20
+	.  error
+
+
+state 15
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal . DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (3)
+
+	DC_METADATA_ATTRIBUTE_NAME  shift 21
+	.  error
+
+
+state 16
+	dcMetadataEnd : LESS CLOSE . DC_METADATA_TAG MORE  (5)
+
+	DC_METADATA_TAG  shift 22
+	.  error
+
+
+state 17
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG . DC_CREATOR_ATTRIBUTE_NAME attrVal MORE  (9)
+
+	DC_CREATOR_ATTRIBUTE_NAME  shift 23
+	.  error
+
+
+state 18
+	dcMetadataCreatorBody : TAG_VALUE .  (10)
+
+	.  reduce 10
+
+
+state 19
+	dcMetadataCreator : dcMetadataCreatorStart dcMetadataCreatorBody . dcMetadataCreatorEnd  (8)
+
+	LESS  shift 24
+	.  error
+
+	dcMetadataCreatorEnd  goto 25
+
+
+state 20
+	attrVal : EQ QUOTE . ATTR_VALUE QUOTE  (12)
+
+	ATTR_VALUE  shift 26
+	.  error
+
+
+state 21
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME . attrVal MORE  (3)
+
+	EQ  shift 14
+	.  error
+
+	attrVal  goto 27
+
+
+state 22
+	dcMetadataEnd : LESS CLOSE DC_METADATA_TAG . MORE  (5)
+
+	MORE  shift 28
+	.  error
+
+
+state 23
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME . attrVal MORE  (9)
+
+	EQ  shift 14
+	.  error
+
+	attrVal  goto 29
+
+
+state 24
+	dcMetadataCreatorEnd : LESS . CLOSE DC_CREATOR_TAG MORE  (11)
+
+	CLOSE  shift 30
+	.  error
+
+
+state 25
+	dcMetadataCreator : dcMetadataCreatorStart dcMetadataCreatorBody dcMetadataCreatorEnd .  (8)
+
+	.  reduce 8
+
+
+state 26
+	attrVal : EQ QUOTE ATTR_VALUE . QUOTE  (12)
+
+	QUOTE  shift 31
+	.  error
+
+
+state 27
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal . MORE  (3)
+
+	MORE  shift 32
+	.  error
+
+
+state 28
+	dcMetadataEnd : LESS CLOSE DC_METADATA_TAG MORE .  (5)
+
+	.  reduce 5
+
+
+state 29
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal . MORE  (9)
+
+	MORE  shift 33
+	.  error
+
+
+state 30
+	dcMetadataCreatorEnd : LESS CLOSE . DC_CREATOR_TAG MORE  (11)
+
+	DC_CREATOR_TAG  shift 34
+	.  error
+
+
+state 31
+	attrVal : EQ QUOTE ATTR_VALUE QUOTE .  (12)
+
+	.  reduce 12
+
+
+state 32
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE .  (3)
+
+	.  reduce 3
+
+
+state 33
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal MORE .  (9)
+
+	.  reduce 9
+
+
+state 34
+	dcMetadataCreatorEnd : LESS CLOSE DC_CREATOR_TAG . MORE  (11)
+
+	MORE  shift 35
+	.  error
+
+
+state 35
+	dcMetadataCreatorEnd : LESS CLOSE DC_CREATOR_TAG MORE .  (11)
+
+	.  reduce 11
+
+
+Rules never reduced:
+	dcMetadataBody : dcMetadataCreators  (4)
+
+
+State 7 contains 1 shift/reduce conflict.
+
+
+26 terminals, 12 nonterminals
+13 grammar rules, 36 states

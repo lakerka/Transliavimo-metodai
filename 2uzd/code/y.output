@@ -1,30 +1,129 @@
    0  $accept : root $end
 
-   1  root : xmlVersion
+   1  root : XML_DESC DOCTYPE package
 
-   2  xmlVersion : LESS attr MORE
+   2  package : packageStart packageBody packageEnd
 
-   3  attr : ATTR attrVal
+   3  packageStart : LESS PACKAGE_TAG PACKAGE_ATTRIBUTE_NAME attrVal MORE
 
-   4  attrVal : EQ QUOTE ATTR_VALUE QUOTE
+   4  packageBody : metadata manifest spine guide
+
+   5  packageEnd : LESS CLOSE PACKAGE_TAG MORE
+
+   6  metadata : metadataStart metadataBody metadataEnd
+
+   7  metadataStart : LESS METADATA_TAG MORE
+
+   8  metadataBody : dcMetadata
+
+   9  metadataEnd : LESS CLOSE METADATA_TAG MORE
+
+  10  dcMetadata : dcMetadataStart dcMetadataIdentifier dcMetadataTitle dcMetadataType dcMetadataCreators dcMetadataEnd
+
+  11  dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE
+
+  12  dcMetadataEnd : LESS CLOSE DC_METADATA_TAG MORE
+
+  13  dcMetadataIdentifier : dcMetadataIdentifierStart dcMetadataIdentifierBody dcMetadataIdentifierEnd
+
+  14  dcMetadataIdentifierStart : LESS DC_IDENTIFIER_TAG ID_ATTRIBUTE_NAME attrVal MORE
+
+  15  dcMetadataIdentifierBody : TAG_VALUE
+
+  16  dcMetadataIdentifierEnd : LESS CLOSE DC_IDENTIFIER_TAG MORE
+
+  17  dcMetadataTitle : dcMetadataTitleStart dcMetadataTitleBody dcMetadataTitleEnd
+
+  18  dcMetadataTitleStart : LESS DC_TITLE_TAG MORE
+
+  19  dcMetadataTitleBody : TAG_VALUE
+
+  20  dcMetadataTitleEnd : LESS CLOSE DC_TITLE_TAG MORE
+
+  21  dcMetadataType : dcMetadataTypeStart dcMetadataTypeBody dcMetadataTypeEnd
+
+  22  dcMetadataTypeStart : LESS DC_TYPE_TAG MORE
+
+  23  dcMetadataTypeBody : TAG_VALUE
+
+  24  dcMetadataTypeEnd : LESS CLOSE DC_TYPE_TAG MORE
+
+  25  dcMetadataCreators : dcMetadataCreators dcMetadataCreator
+  26                     |
+
+  27  dcMetadataCreator : dcMetadataCreatorStart dcMetadataCreatorBody dcMetadataCreatorEnd
+
+  28  dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal MORE
+
+  29  dcMetadataCreatorBody : TAG_VALUE
+
+  30  dcMetadataCreatorEnd : LESS CLOSE DC_CREATOR_TAG MORE
+
+  31  manifest : manifestStart items manifestEnd
+
+  32  manifestStart : LESS MANIFEST_TAG MORE
+
+  33  manifestEnd : LESS CLOSE MANIFEST_TAG MORE
+
+  34  items : items item
+  35        |
+
+  36  item : itemStart itemAttributes itemEnd
+  37       | itemStart HREF_ATTRIBUTE_NAME attrVal itemAttributes itemEnd
+
+  38  itemStart : LESS ITEM_TAG ID_ATTRIBUTE_NAME attrVal
+
+  39  itemAttributes : itemAttributes itemAttribute
+  40                 |
+
+  41  itemAttribute : ITEM_ATTRIBUTE_NAME attrVal
+
+  42  itemEnd : INLINE_MORE
+
+  43  spine : spineStart itemrefs spineEnd
+
+  44  spineStart : LESS SPINE_TAG MORE
+
+  45  spineEnd : LESS CLOSE SPINE_TAG MORE
+
+  46  itemrefs : itemrefs itemref
+  47           |
+
+  48  itemref : LESS ITEMREF_TAG ITEMREF_ATTRIBUTE_NAME attrVal INLINE_MORE
+
+  49  guide : guideStart references guideEnd
+
+  50  guideStart : LESS GUIDE_TAG MORE
+
+  51  guideEnd : LESS CLOSE GUIDE_TAG MORE
+
+  52  references : references reference
+  53             |
+
+  54  reference : LESS REFERENCE_TAG referenceAttributes INLINE_MORE
+
+  55  referenceAttributes : referenceAttributes referenceAttribute
+  56                      |
+
+  57  referenceAttribute : REFERENCE_ATTRIBUTE_NAME attrVal
+  58                     | HREF_ATTRIBUTE_NAME attrVal
+
+  59  attrVal : EQ QUOTE ATTR_VALUE QUOTE
 
 state 0
 	$accept : . root $end  (0)
 
-	LESS  shift 1
+	XML_DESC  shift 1
 	.  error
 
 	root  goto 2
-	xmlVersion  goto 3
 
 
 state 1
-	xmlVersion : LESS . attr MORE  (2)
+	root : XML_DESC . DOCTYPE package  (1)
 
-	ATTR  shift 4
+	DOCTYPE  shift 3
 	.  error
-
-	attr  goto 5
 
 
 state 2
@@ -34,65 +133,1179 @@ state 2
 
 
 state 3
-	root : xmlVersion .  (1)
+	root : XML_DESC DOCTYPE . package  (1)
+
+	LESS  shift 4
+	.  error
+
+	package  goto 5
+	packageStart  goto 6
+
+
+state 4
+	packageStart : LESS . PACKAGE_TAG PACKAGE_ATTRIBUTE_NAME attrVal MORE  (3)
+
+	PACKAGE_TAG  shift 7
+	.  error
+
+
+state 5
+	root : XML_DESC DOCTYPE package .  (1)
 
 	.  reduce 1
 
 
-state 4
-	attr : ATTR . attrVal  (3)
-
-	EQ  shift 6
-	.  error
-
-	attrVal  goto 7
-
-
-state 5
-	xmlVersion : LESS attr . MORE  (2)
-
-	MORE  shift 8
-	.  error
-
-
 state 6
-	attrVal : EQ . QUOTE ATTR_VALUE QUOTE  (4)
+	package : packageStart . packageBody packageEnd  (2)
 
-	QUOTE  shift 9
+	LESS  shift 8
 	.  error
+
+	packageBody  goto 9
+	metadata  goto 10
+	metadataStart  goto 11
 
 
 state 7
-	attr : ATTR attrVal .  (3)
+	packageStart : LESS PACKAGE_TAG . PACKAGE_ATTRIBUTE_NAME attrVal MORE  (3)
 
-	.  reduce 3
+	PACKAGE_ATTRIBUTE_NAME  shift 12
+	.  error
 
 
 state 8
-	xmlVersion : LESS attr MORE .  (2)
+	metadataStart : LESS . METADATA_TAG MORE  (7)
+
+	METADATA_TAG  shift 13
+	.  error
+
+
+state 9
+	package : packageStart packageBody . packageEnd  (2)
+
+	LESS  shift 14
+	.  error
+
+	packageEnd  goto 15
+
+
+state 10
+	packageBody : metadata . manifest spine guide  (4)
+
+	LESS  shift 16
+	.  error
+
+	manifest  goto 17
+	manifestStart  goto 18
+
+
+state 11
+	metadata : metadataStart . metadataBody metadataEnd  (6)
+
+	LESS  shift 19
+	.  error
+
+	metadataBody  goto 20
+	dcMetadata  goto 21
+	dcMetadataStart  goto 22
+
+
+state 12
+	packageStart : LESS PACKAGE_TAG PACKAGE_ATTRIBUTE_NAME . attrVal MORE  (3)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 24
+
+
+state 13
+	metadataStart : LESS METADATA_TAG . MORE  (7)
+
+	MORE  shift 25
+	.  error
+
+
+state 14
+	packageEnd : LESS . CLOSE PACKAGE_TAG MORE  (5)
+
+	CLOSE  shift 26
+	.  error
+
+
+state 15
+	package : packageStart packageBody packageEnd .  (2)
 
 	.  reduce 2
 
 
-state 9
-	attrVal : EQ QUOTE . ATTR_VALUE QUOTE  (4)
+state 16
+	manifestStart : LESS . MANIFEST_TAG MORE  (32)
 
-	ATTR_VALUE  shift 10
+	MANIFEST_TAG  shift 27
 	.  error
 
 
-state 10
-	attrVal : EQ QUOTE ATTR_VALUE . QUOTE  (4)
+state 17
+	packageBody : metadata manifest . spine guide  (4)
 
-	QUOTE  shift 11
+	LESS  shift 28
+	.  error
+
+	spine  goto 29
+	spineStart  goto 30
+
+
+state 18
+	manifest : manifestStart . items manifestEnd  (31)
+	items : .  (35)
+
+	.  reduce 35
+
+	items  goto 31
+
+
+state 19
+	dcMetadataStart : LESS . DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (11)
+
+	DC_METADATA_TAG  shift 32
 	.  error
 
 
-state 11
-	attrVal : EQ QUOTE ATTR_VALUE QUOTE .  (4)
+state 20
+	metadata : metadataStart metadataBody . metadataEnd  (6)
+
+	LESS  shift 33
+	.  error
+
+	metadataEnd  goto 34
+
+
+state 21
+	metadataBody : dcMetadata .  (8)
+
+	.  reduce 8
+
+
+state 22
+	dcMetadata : dcMetadataStart . dcMetadataIdentifier dcMetadataTitle dcMetadataType dcMetadataCreators dcMetadataEnd  (10)
+
+	LESS  shift 35
+	.  error
+
+	dcMetadataIdentifier  goto 36
+	dcMetadataIdentifierStart  goto 37
+
+
+state 23
+	attrVal : EQ . QUOTE ATTR_VALUE QUOTE  (59)
+
+	QUOTE  shift 38
+	.  error
+
+
+state 24
+	packageStart : LESS PACKAGE_TAG PACKAGE_ATTRIBUTE_NAME attrVal . MORE  (3)
+
+	MORE  shift 39
+	.  error
+
+
+state 25
+	metadataStart : LESS METADATA_TAG MORE .  (7)
+
+	.  reduce 7
+
+
+state 26
+	packageEnd : LESS CLOSE . PACKAGE_TAG MORE  (5)
+
+	PACKAGE_TAG  shift 40
+	.  error
+
+
+state 27
+	manifestStart : LESS MANIFEST_TAG . MORE  (32)
+
+	MORE  shift 41
+	.  error
+
+
+state 28
+	spineStart : LESS . SPINE_TAG MORE  (44)
+
+	SPINE_TAG  shift 42
+	.  error
+
+
+state 29
+	packageBody : metadata manifest spine . guide  (4)
+
+	LESS  shift 43
+	.  error
+
+	guide  goto 44
+	guideStart  goto 45
+
+
+state 30
+	spine : spineStart . itemrefs spineEnd  (43)
+	itemrefs : .  (47)
+
+	.  reduce 47
+
+	itemrefs  goto 46
+
+
+state 31
+	manifest : manifestStart items . manifestEnd  (31)
+	items : items . item  (34)
+
+	LESS  shift 47
+	.  error
+
+	manifestEnd  goto 48
+	item  goto 49
+	itemStart  goto 50
+
+
+state 32
+	dcMetadataStart : LESS DC_METADATA_TAG . DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (11)
+
+	DC_METADATA_ATTRIBUTE_NAME  shift 51
+	.  error
+
+
+state 33
+	metadataEnd : LESS . CLOSE METADATA_TAG MORE  (9)
+
+	CLOSE  shift 52
+	.  error
+
+
+state 34
+	metadata : metadataStart metadataBody metadataEnd .  (6)
+
+	.  reduce 6
+
+
+state 35
+	dcMetadataIdentifierStart : LESS . DC_IDENTIFIER_TAG ID_ATTRIBUTE_NAME attrVal MORE  (14)
+
+	DC_IDENTIFIER_TAG  shift 53
+	.  error
+
+
+state 36
+	dcMetadata : dcMetadataStart dcMetadataIdentifier . dcMetadataTitle dcMetadataType dcMetadataCreators dcMetadataEnd  (10)
+
+	LESS  shift 54
+	.  error
+
+	dcMetadataTitle  goto 55
+	dcMetadataTitleStart  goto 56
+
+
+state 37
+	dcMetadataIdentifier : dcMetadataIdentifierStart . dcMetadataIdentifierBody dcMetadataIdentifierEnd  (13)
+
+	TAG_VALUE  shift 57
+	.  error
+
+	dcMetadataIdentifierBody  goto 58
+
+
+state 38
+	attrVal : EQ QUOTE . ATTR_VALUE QUOTE  (59)
+
+	ATTR_VALUE  shift 59
+	.  error
+
+
+state 39
+	packageStart : LESS PACKAGE_TAG PACKAGE_ATTRIBUTE_NAME attrVal MORE .  (3)
+
+	.  reduce 3
+
+
+state 40
+	packageEnd : LESS CLOSE PACKAGE_TAG . MORE  (5)
+
+	MORE  shift 60
+	.  error
+
+
+state 41
+	manifestStart : LESS MANIFEST_TAG MORE .  (32)
+
+	.  reduce 32
+
+
+state 42
+	spineStart : LESS SPINE_TAG . MORE  (44)
+
+	MORE  shift 61
+	.  error
+
+
+state 43
+	guideStart : LESS . GUIDE_TAG MORE  (50)
+
+	GUIDE_TAG  shift 62
+	.  error
+
+
+state 44
+	packageBody : metadata manifest spine guide .  (4)
 
 	.  reduce 4
 
 
-11 terminals, 5 nonterminals
-5 grammar rules, 12 states
+state 45
+	guide : guideStart . references guideEnd  (49)
+	references : .  (53)
+
+	.  reduce 53
+
+	references  goto 63
+
+
+state 46
+	spine : spineStart itemrefs . spineEnd  (43)
+	itemrefs : itemrefs . itemref  (46)
+
+	LESS  shift 64
+	.  error
+
+	spineEnd  goto 65
+	itemref  goto 66
+
+
+state 47
+	manifestEnd : LESS . CLOSE MANIFEST_TAG MORE  (33)
+	itemStart : LESS . ITEM_TAG ID_ATTRIBUTE_NAME attrVal  (38)
+
+	CLOSE  shift 67
+	ITEM_TAG  shift 68
+	.  error
+
+
+state 48
+	manifest : manifestStart items manifestEnd .  (31)
+
+	.  reduce 31
+
+
+state 49
+	items : items item .  (34)
+
+	.  reduce 34
+
+
+state 50
+	item : itemStart . itemAttributes itemEnd  (36)
+	item : itemStart . HREF_ATTRIBUTE_NAME attrVal itemAttributes itemEnd  (37)
+	itemAttributes : .  (40)
+
+	HREF_ATTRIBUTE_NAME  shift 69
+	INLINE_MORE  reduce 40
+	ITEM_ATTRIBUTE_NAME  reduce 40
+
+	itemAttributes  goto 70
+
+
+state 51
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME . attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (11)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 71
+
+
+state 52
+	metadataEnd : LESS CLOSE . METADATA_TAG MORE  (9)
+
+	METADATA_TAG  shift 72
+	.  error
+
+
+state 53
+	dcMetadataIdentifierStart : LESS DC_IDENTIFIER_TAG . ID_ATTRIBUTE_NAME attrVal MORE  (14)
+
+	ID_ATTRIBUTE_NAME  shift 73
+	.  error
+
+
+state 54
+	dcMetadataTitleStart : LESS . DC_TITLE_TAG MORE  (18)
+
+	DC_TITLE_TAG  shift 74
+	.  error
+
+
+state 55
+	dcMetadata : dcMetadataStart dcMetadataIdentifier dcMetadataTitle . dcMetadataType dcMetadataCreators dcMetadataEnd  (10)
+
+	LESS  shift 75
+	.  error
+
+	dcMetadataType  goto 76
+	dcMetadataTypeStart  goto 77
+
+
+state 56
+	dcMetadataTitle : dcMetadataTitleStart . dcMetadataTitleBody dcMetadataTitleEnd  (17)
+
+	TAG_VALUE  shift 78
+	.  error
+
+	dcMetadataTitleBody  goto 79
+
+
+state 57
+	dcMetadataIdentifierBody : TAG_VALUE .  (15)
+
+	.  reduce 15
+
+
+state 58
+	dcMetadataIdentifier : dcMetadataIdentifierStart dcMetadataIdentifierBody . dcMetadataIdentifierEnd  (13)
+
+	LESS  shift 80
+	.  error
+
+	dcMetadataIdentifierEnd  goto 81
+
+
+state 59
+	attrVal : EQ QUOTE ATTR_VALUE . QUOTE  (59)
+
+	QUOTE  shift 82
+	.  error
+
+
+state 60
+	packageEnd : LESS CLOSE PACKAGE_TAG MORE .  (5)
+
+	.  reduce 5
+
+
+state 61
+	spineStart : LESS SPINE_TAG MORE .  (44)
+
+	.  reduce 44
+
+
+state 62
+	guideStart : LESS GUIDE_TAG . MORE  (50)
+
+	MORE  shift 83
+	.  error
+
+
+state 63
+	guide : guideStart references . guideEnd  (49)
+	references : references . reference  (52)
+
+	LESS  shift 84
+	.  error
+
+	guideEnd  goto 85
+	reference  goto 86
+
+
+state 64
+	spineEnd : LESS . CLOSE SPINE_TAG MORE  (45)
+	itemref : LESS . ITEMREF_TAG ITEMREF_ATTRIBUTE_NAME attrVal INLINE_MORE  (48)
+
+	CLOSE  shift 87
+	ITEMREF_TAG  shift 88
+	.  error
+
+
+state 65
+	spine : spineStart itemrefs spineEnd .  (43)
+
+	.  reduce 43
+
+
+state 66
+	itemrefs : itemrefs itemref .  (46)
+
+	.  reduce 46
+
+
+state 67
+	manifestEnd : LESS CLOSE . MANIFEST_TAG MORE  (33)
+
+	MANIFEST_TAG  shift 89
+	.  error
+
+
+state 68
+	itemStart : LESS ITEM_TAG . ID_ATTRIBUTE_NAME attrVal  (38)
+
+	ID_ATTRIBUTE_NAME  shift 90
+	.  error
+
+
+state 69
+	item : itemStart HREF_ATTRIBUTE_NAME . attrVal itemAttributes itemEnd  (37)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 91
+
+
+state 70
+	item : itemStart itemAttributes . itemEnd  (36)
+	itemAttributes : itemAttributes . itemAttribute  (39)
+
+	INLINE_MORE  shift 92
+	ITEM_ATTRIBUTE_NAME  shift 93
+	.  error
+
+	itemEnd  goto 94
+	itemAttribute  goto 95
+
+
+state 71
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal . DC_METADATA_ATTRIBUTE_NAME attrVal MORE  (11)
+
+	DC_METADATA_ATTRIBUTE_NAME  shift 96
+	.  error
+
+
+state 72
+	metadataEnd : LESS CLOSE METADATA_TAG . MORE  (9)
+
+	MORE  shift 97
+	.  error
+
+
+state 73
+	dcMetadataIdentifierStart : LESS DC_IDENTIFIER_TAG ID_ATTRIBUTE_NAME . attrVal MORE  (14)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 98
+
+
+state 74
+	dcMetadataTitleStart : LESS DC_TITLE_TAG . MORE  (18)
+
+	MORE  shift 99
+	.  error
+
+
+state 75
+	dcMetadataTypeStart : LESS . DC_TYPE_TAG MORE  (22)
+
+	DC_TYPE_TAG  shift 100
+	.  error
+
+
+state 76
+	dcMetadata : dcMetadataStart dcMetadataIdentifier dcMetadataTitle dcMetadataType . dcMetadataCreators dcMetadataEnd  (10)
+	dcMetadataCreators : .  (26)
+
+	.  reduce 26
+
+	dcMetadataCreators  goto 101
+
+
+state 77
+	dcMetadataType : dcMetadataTypeStart . dcMetadataTypeBody dcMetadataTypeEnd  (21)
+
+	TAG_VALUE  shift 102
+	.  error
+
+	dcMetadataTypeBody  goto 103
+
+
+state 78
+	dcMetadataTitleBody : TAG_VALUE .  (19)
+
+	.  reduce 19
+
+
+state 79
+	dcMetadataTitle : dcMetadataTitleStart dcMetadataTitleBody . dcMetadataTitleEnd  (17)
+
+	LESS  shift 104
+	.  error
+
+	dcMetadataTitleEnd  goto 105
+
+
+state 80
+	dcMetadataIdentifierEnd : LESS . CLOSE DC_IDENTIFIER_TAG MORE  (16)
+
+	CLOSE  shift 106
+	.  error
+
+
+state 81
+	dcMetadataIdentifier : dcMetadataIdentifierStart dcMetadataIdentifierBody dcMetadataIdentifierEnd .  (13)
+
+	.  reduce 13
+
+
+state 82
+	attrVal : EQ QUOTE ATTR_VALUE QUOTE .  (59)
+
+	.  reduce 59
+
+
+state 83
+	guideStart : LESS GUIDE_TAG MORE .  (50)
+
+	.  reduce 50
+
+
+state 84
+	guideEnd : LESS . CLOSE GUIDE_TAG MORE  (51)
+	reference : LESS . REFERENCE_TAG referenceAttributes INLINE_MORE  (54)
+
+	CLOSE  shift 107
+	REFERENCE_TAG  shift 108
+	.  error
+
+
+state 85
+	guide : guideStart references guideEnd .  (49)
+
+	.  reduce 49
+
+
+state 86
+	references : references reference .  (52)
+
+	.  reduce 52
+
+
+state 87
+	spineEnd : LESS CLOSE . SPINE_TAG MORE  (45)
+
+	SPINE_TAG  shift 109
+	.  error
+
+
+state 88
+	itemref : LESS ITEMREF_TAG . ITEMREF_ATTRIBUTE_NAME attrVal INLINE_MORE  (48)
+
+	ITEMREF_ATTRIBUTE_NAME  shift 110
+	.  error
+
+
+state 89
+	manifestEnd : LESS CLOSE MANIFEST_TAG . MORE  (33)
+
+	MORE  shift 111
+	.  error
+
+
+state 90
+	itemStart : LESS ITEM_TAG ID_ATTRIBUTE_NAME . attrVal  (38)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 112
+
+
+state 91
+	item : itemStart HREF_ATTRIBUTE_NAME attrVal . itemAttributes itemEnd  (37)
+	itemAttributes : .  (40)
+
+	.  reduce 40
+
+	itemAttributes  goto 113
+
+
+state 92
+	itemEnd : INLINE_MORE .  (42)
+
+	.  reduce 42
+
+
+state 93
+	itemAttribute : ITEM_ATTRIBUTE_NAME . attrVal  (41)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 114
+
+
+state 94
+	item : itemStart itemAttributes itemEnd .  (36)
+
+	.  reduce 36
+
+
+state 95
+	itemAttributes : itemAttributes itemAttribute .  (39)
+
+	.  reduce 39
+
+
+state 96
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME . attrVal MORE  (11)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 115
+
+
+state 97
+	metadataEnd : LESS CLOSE METADATA_TAG MORE .  (9)
+
+	.  reduce 9
+
+
+state 98
+	dcMetadataIdentifierStart : LESS DC_IDENTIFIER_TAG ID_ATTRIBUTE_NAME attrVal . MORE  (14)
+
+	MORE  shift 116
+	.  error
+
+
+state 99
+	dcMetadataTitleStart : LESS DC_TITLE_TAG MORE .  (18)
+
+	.  reduce 18
+
+
+state 100
+	dcMetadataTypeStart : LESS DC_TYPE_TAG . MORE  (22)
+
+	MORE  shift 117
+	.  error
+
+
+state 101
+	dcMetadata : dcMetadataStart dcMetadataIdentifier dcMetadataTitle dcMetadataType dcMetadataCreators . dcMetadataEnd  (10)
+	dcMetadataCreators : dcMetadataCreators . dcMetadataCreator  (25)
+
+	LESS  shift 118
+	.  error
+
+	dcMetadataEnd  goto 119
+	dcMetadataCreator  goto 120
+	dcMetadataCreatorStart  goto 121
+
+
+state 102
+	dcMetadataTypeBody : TAG_VALUE .  (23)
+
+	.  reduce 23
+
+
+state 103
+	dcMetadataType : dcMetadataTypeStart dcMetadataTypeBody . dcMetadataTypeEnd  (21)
+
+	LESS  shift 122
+	.  error
+
+	dcMetadataTypeEnd  goto 123
+
+
+state 104
+	dcMetadataTitleEnd : LESS . CLOSE DC_TITLE_TAG MORE  (20)
+
+	CLOSE  shift 124
+	.  error
+
+
+state 105
+	dcMetadataTitle : dcMetadataTitleStart dcMetadataTitleBody dcMetadataTitleEnd .  (17)
+
+	.  reduce 17
+
+
+state 106
+	dcMetadataIdentifierEnd : LESS CLOSE . DC_IDENTIFIER_TAG MORE  (16)
+
+	DC_IDENTIFIER_TAG  shift 125
+	.  error
+
+
+state 107
+	guideEnd : LESS CLOSE . GUIDE_TAG MORE  (51)
+
+	GUIDE_TAG  shift 126
+	.  error
+
+
+state 108
+	reference : LESS REFERENCE_TAG . referenceAttributes INLINE_MORE  (54)
+	referenceAttributes : .  (56)
+
+	.  reduce 56
+
+	referenceAttributes  goto 127
+
+
+state 109
+	spineEnd : LESS CLOSE SPINE_TAG . MORE  (45)
+
+	MORE  shift 128
+	.  error
+
+
+state 110
+	itemref : LESS ITEMREF_TAG ITEMREF_ATTRIBUTE_NAME . attrVal INLINE_MORE  (48)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 129
+
+
+state 111
+	manifestEnd : LESS CLOSE MANIFEST_TAG MORE .  (33)
+
+	.  reduce 33
+
+
+state 112
+	itemStart : LESS ITEM_TAG ID_ATTRIBUTE_NAME attrVal .  (38)
+
+	.  reduce 38
+
+
+state 113
+	item : itemStart HREF_ATTRIBUTE_NAME attrVal itemAttributes . itemEnd  (37)
+	itemAttributes : itemAttributes . itemAttribute  (39)
+
+	INLINE_MORE  shift 92
+	ITEM_ATTRIBUTE_NAME  shift 93
+	.  error
+
+	itemEnd  goto 130
+	itemAttribute  goto 95
+
+
+state 114
+	itemAttribute : ITEM_ATTRIBUTE_NAME attrVal .  (41)
+
+	.  reduce 41
+
+
+state 115
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal . MORE  (11)
+
+	MORE  shift 131
+	.  error
+
+
+state 116
+	dcMetadataIdentifierStart : LESS DC_IDENTIFIER_TAG ID_ATTRIBUTE_NAME attrVal MORE .  (14)
+
+	.  reduce 14
+
+
+state 117
+	dcMetadataTypeStart : LESS DC_TYPE_TAG MORE .  (22)
+
+	.  reduce 22
+
+
+state 118
+	dcMetadataEnd : LESS . CLOSE DC_METADATA_TAG MORE  (12)
+	dcMetadataCreatorStart : LESS . DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal MORE  (28)
+
+	CLOSE  shift 132
+	DC_CREATOR_TAG  shift 133
+	.  error
+
+
+state 119
+	dcMetadata : dcMetadataStart dcMetadataIdentifier dcMetadataTitle dcMetadataType dcMetadataCreators dcMetadataEnd .  (10)
+
+	.  reduce 10
+
+
+state 120
+	dcMetadataCreators : dcMetadataCreators dcMetadataCreator .  (25)
+
+	.  reduce 25
+
+
+state 121
+	dcMetadataCreator : dcMetadataCreatorStart . dcMetadataCreatorBody dcMetadataCreatorEnd  (27)
+
+	TAG_VALUE  shift 134
+	.  error
+
+	dcMetadataCreatorBody  goto 135
+
+
+state 122
+	dcMetadataTypeEnd : LESS . CLOSE DC_TYPE_TAG MORE  (24)
+
+	CLOSE  shift 136
+	.  error
+
+
+state 123
+	dcMetadataType : dcMetadataTypeStart dcMetadataTypeBody dcMetadataTypeEnd .  (21)
+
+	.  reduce 21
+
+
+state 124
+	dcMetadataTitleEnd : LESS CLOSE . DC_TITLE_TAG MORE  (20)
+
+	DC_TITLE_TAG  shift 137
+	.  error
+
+
+state 125
+	dcMetadataIdentifierEnd : LESS CLOSE DC_IDENTIFIER_TAG . MORE  (16)
+
+	MORE  shift 138
+	.  error
+
+
+state 126
+	guideEnd : LESS CLOSE GUIDE_TAG . MORE  (51)
+
+	MORE  shift 139
+	.  error
+
+
+state 127
+	reference : LESS REFERENCE_TAG referenceAttributes . INLINE_MORE  (54)
+	referenceAttributes : referenceAttributes . referenceAttribute  (55)
+
+	INLINE_MORE  shift 140
+	REFERENCE_ATTRIBUTE_NAME  shift 141
+	HREF_ATTRIBUTE_NAME  shift 142
+	.  error
+
+	referenceAttribute  goto 143
+
+
+state 128
+	spineEnd : LESS CLOSE SPINE_TAG MORE .  (45)
+
+	.  reduce 45
+
+
+state 129
+	itemref : LESS ITEMREF_TAG ITEMREF_ATTRIBUTE_NAME attrVal . INLINE_MORE  (48)
+
+	INLINE_MORE  shift 144
+	.  error
+
+
+state 130
+	item : itemStart HREF_ATTRIBUTE_NAME attrVal itemAttributes itemEnd .  (37)
+
+	.  reduce 37
+
+
+state 131
+	dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE .  (11)
+
+	.  reduce 11
+
+
+state 132
+	dcMetadataEnd : LESS CLOSE . DC_METADATA_TAG MORE  (12)
+
+	DC_METADATA_TAG  shift 145
+	.  error
+
+
+state 133
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG . DC_CREATOR_ATTRIBUTE_NAME attrVal MORE  (28)
+
+	DC_CREATOR_ATTRIBUTE_NAME  shift 146
+	.  error
+
+
+state 134
+	dcMetadataCreatorBody : TAG_VALUE .  (29)
+
+	.  reduce 29
+
+
+state 135
+	dcMetadataCreator : dcMetadataCreatorStart dcMetadataCreatorBody . dcMetadataCreatorEnd  (27)
+
+	LESS  shift 147
+	.  error
+
+	dcMetadataCreatorEnd  goto 148
+
+
+state 136
+	dcMetadataTypeEnd : LESS CLOSE . DC_TYPE_TAG MORE  (24)
+
+	DC_TYPE_TAG  shift 149
+	.  error
+
+
+state 137
+	dcMetadataTitleEnd : LESS CLOSE DC_TITLE_TAG . MORE  (20)
+
+	MORE  shift 150
+	.  error
+
+
+state 138
+	dcMetadataIdentifierEnd : LESS CLOSE DC_IDENTIFIER_TAG MORE .  (16)
+
+	.  reduce 16
+
+
+state 139
+	guideEnd : LESS CLOSE GUIDE_TAG MORE .  (51)
+
+	.  reduce 51
+
+
+state 140
+	reference : LESS REFERENCE_TAG referenceAttributes INLINE_MORE .  (54)
+
+	.  reduce 54
+
+
+state 141
+	referenceAttribute : REFERENCE_ATTRIBUTE_NAME . attrVal  (57)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 151
+
+
+state 142
+	referenceAttribute : HREF_ATTRIBUTE_NAME . attrVal  (58)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 152
+
+
+state 143
+	referenceAttributes : referenceAttributes referenceAttribute .  (55)
+
+	.  reduce 55
+
+
+state 144
+	itemref : LESS ITEMREF_TAG ITEMREF_ATTRIBUTE_NAME attrVal INLINE_MORE .  (48)
+
+	.  reduce 48
+
+
+state 145
+	dcMetadataEnd : LESS CLOSE DC_METADATA_TAG . MORE  (12)
+
+	MORE  shift 153
+	.  error
+
+
+state 146
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME . attrVal MORE  (28)
+
+	EQ  shift 23
+	.  error
+
+	attrVal  goto 154
+
+
+state 147
+	dcMetadataCreatorEnd : LESS . CLOSE DC_CREATOR_TAG MORE  (30)
+
+	CLOSE  shift 155
+	.  error
+
+
+state 148
+	dcMetadataCreator : dcMetadataCreatorStart dcMetadataCreatorBody dcMetadataCreatorEnd .  (27)
+
+	.  reduce 27
+
+
+state 149
+	dcMetadataTypeEnd : LESS CLOSE DC_TYPE_TAG . MORE  (24)
+
+	MORE  shift 156
+	.  error
+
+
+state 150
+	dcMetadataTitleEnd : LESS CLOSE DC_TITLE_TAG MORE .  (20)
+
+	.  reduce 20
+
+
+state 151
+	referenceAttribute : REFERENCE_ATTRIBUTE_NAME attrVal .  (57)
+
+	.  reduce 57
+
+
+state 152
+	referenceAttribute : HREF_ATTRIBUTE_NAME attrVal .  (58)
+
+	.  reduce 58
+
+
+state 153
+	dcMetadataEnd : LESS CLOSE DC_METADATA_TAG MORE .  (12)
+
+	.  reduce 12
+
+
+state 154
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal . MORE  (28)
+
+	MORE  shift 157
+	.  error
+
+
+state 155
+	dcMetadataCreatorEnd : LESS CLOSE . DC_CREATOR_TAG MORE  (30)
+
+	DC_CREATOR_TAG  shift 158
+	.  error
+
+
+state 156
+	dcMetadataTypeEnd : LESS CLOSE DC_TYPE_TAG MORE .  (24)
+
+	.  reduce 24
+
+
+state 157
+	dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal MORE .  (28)
+
+	.  reduce 28
+
+
+state 158
+	dcMetadataCreatorEnd : LESS CLOSE DC_CREATOR_TAG . MORE  (30)
+
+	MORE  shift 159
+	.  error
+
+
+state 159
+	dcMetadataCreatorEnd : LESS CLOSE DC_CREATOR_TAG MORE .  (30)
+
+	.  reduce 30
+
+
+37 terminals, 52 nonterminals
+60 grammar rules, 160 states

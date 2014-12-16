@@ -63,52 +63,158 @@ typedef int YYSTYPE;
 
 extern int YYPARSE_DECL();
 
-#define ATTR 257
-#define LESS 258
-#define MORE 259
-#define EQ 260
-#define QUOTE 261
-#define XML_VERSION_OPEN 262
-#define XML_VERSION_CLOSE 263
-#define TAG_VALUE 264
-#define ATTR_VALUE 265
+#define XML_DESC 257
+#define DOCTYPE 258
+#define PACKAGE 259
+#define TAG_NAME 260
+#define ATTR_NAME 261
+#define LESS 262
+#define MORE 263
+#define EQ 264
+#define QUOTE 265
+#define CLOSE 266
+#define INLINE_MORE 267
+#define TAG_VALUE 268
+#define ATTR_VALUE 269
+#define PACKAGE_TAG 270
+#define PACKAGE_ATTRIBUTE_NAME 271
+#define METADATA_TAG 272
+#define DC_METADATA_TAG 273
+#define DC_METADATA_ATTRIBUTE_NAME 274
+#define DC_IDENTIFIER_TAG 275
+#define DC_IDENTIFIER_ATTRIBUTE_NAME 276
+#define DC_TITLE_TAG 277
+#define DC_TYPE_TAG 278
+#define DC_CREATOR_TAG 279
+#define DC_CREATOR_ATTRIBUTE_NAME 280
+#define MANIFEST_TAG 281
+#define ITEM_TAG 282
+#define ITEM_ATTRIBUTE_NAME 283
+#define SPINE_TAG 284
+#define ITEMREF_TAG 285
+#define ITEMREF_ATTRIBUTE_NAME 286
+#define GUIDE_TAG 287
+#define REFERENCE_TAG 288
+#define REFERENCE_ATTRIBUTE_NAME 289
+#define ID_ATTRIBUTE_NAME 290
+#define HREF_ATTRIBUTE_NAME 291
 #define YYERRCODE 256
 static const short yylhs[] = {                           -1,
-    0,    1,    2,    3,
+    0,    1,    2,    3,    4,    6,   10,   11,   12,   13,
+   14,   19,   15,   20,   21,   22,   16,   23,   24,   25,
+   17,   26,   27,   28,   18,   18,   29,   30,   31,   32,
+    7,   33,   35,   34,   34,   36,   36,   37,   38,   38,
+   40,   39,    8,   41,   43,   42,   42,   44,    9,   45,
+   47,   46,   46,   48,   49,   49,   50,   50,    5,
 };
 static const short yylen[] = {                            2,
-    1,    3,    2,    4,
+    3,    3,    5,    4,    4,    3,    3,    1,    4,    6,
+    7,    4,    3,    5,    1,    4,    3,    3,    1,    4,
+    3,    3,    1,    4,    2,    0,    3,    5,    1,    4,
+    3,    3,    4,    2,    0,    3,    5,    4,    2,    0,
+    2,    1,    3,    3,    4,    2,    0,    5,    3,    3,
+    4,    2,    0,    4,    2,    0,    2,    2,    4,
 };
 static const short yydefred[] = {                         0,
-    0,    0,    1,    0,    0,    0,    3,    2,    0,    0,
-    4,
+    0,    0,    0,    0,    1,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    2,    0,    0,   35,    0,    0,
+    8,    0,    0,    0,    7,    0,    0,    0,    0,   47,
+    0,    0,    0,    6,    0,    0,    0,    0,    3,    0,
+   32,    0,    0,    4,   53,    0,    0,   31,   34,    0,
+    0,    0,    0,    0,    0,    0,   15,    0,    0,    5,
+   44,    0,    0,    0,   43,   46,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,   26,    0,   19,    0,    0,
+   13,   59,   50,    0,   49,   52,    0,    0,    0,    0,
+   40,   42,    0,   36,   39,    0,    9,    0,   18,    0,
+    0,   23,    0,    0,   17,    0,    0,   56,    0,    0,
+   33,   38,    0,   41,    0,   14,   22,    0,   10,   25,
+    0,    0,   21,    0,    0,    0,    0,   45,    0,   37,
+   11,    0,    0,   29,    0,    0,    0,   16,   51,   54,
+    0,    0,   55,   48,    0,    0,    0,   27,    0,   20,
+   57,   58,   12,    0,    0,   24,   28,    0,   30,
 };
 static const short yydgoto[] = {                          2,
-    3,    5,    7,
+    5,    6,    9,   15,   24,   10,   17,   29,   44,   11,
+   20,   34,   21,   22,   36,   55,   76,  101,  119,   37,
+   58,   81,   56,   79,  105,   77,  103,  123,  120,  121,
+  135,  148,   18,   31,   48,   49,   50,   70,   94,   95,
+   30,   46,   65,   66,   45,   63,   85,   86,  127,  143,
 };
-static const short yysindex[] = {                      -258,
- -256,    0,    0, -257, -255, -259,    0,    0, -260, -254,
-    0,
+static const short yysindex[] = {                      -253,
+ -252,    0, -254, -261,    0, -250, -258, -255, -248, -246,
+ -242, -235, -233, -234,    0, -271, -231,    0, -240, -228,
+    0, -227, -229, -226,    0, -232, -223, -243, -219,    0,
+ -218, -225, -220,    0, -224, -215, -216, -221,    0, -213,
+    0, -210, -230,    0,    0, -208, -263,    0,    0, -236,
+ -235, -214, -222, -217, -206, -207,    0, -200, -202,    0,
+    0, -199, -197, -259,    0,    0, -212, -211, -235, -262,
+ -204, -196, -235, -192, -205,    0, -194,    0, -190, -191,
+    0,    0,    0, -264,    0,    0, -203, -209, -187, -235,
+    0,    0, -235,    0,    0, -235,    0, -185,    0, -183,
+ -180,    0, -179, -182,    0, -189, -198,    0, -178, -235,
+    0,    0, -262,    0, -176,    0,    0, -251,    0,    0,
+ -175, -174,    0, -181, -169, -166, -266,    0, -201,    0,
+    0, -173, -177,    0, -164, -172, -162,    0,    0,    0,
+ -235, -235,    0,    0, -161, -235, -167,    0, -159,    0,
+    0,    0,    0, -158, -171,    0,    0, -156,    0,
 };
 static const short yyrindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0, -256,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,
 };
 static const short yygindex[] = {                         0,
-    0,    0,    0,
+    0,    0,    0,    0,  -51,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,   -3,   -4,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
 };
-#define YYTABLESIZE 7
-static const short yytable[] = {                          1,
-    4,    9,    6,    8,   10,    0,   11,
+#define YYTABLESIZE 109
+static const short yytable[] = {                         71,
+  140,  107,   67,    1,   92,    3,   87,    4,    7,   27,
+   40,    8,   12,   14,  132,   16,   13,   91,   68,   19,
+   93,   98,  141,  108,  142,   88,   40,  133,   23,   25,
+   28,   26,   32,   33,   35,   38,   39,   40,  112,   41,
+   42,  114,   43,   47,  115,   52,   54,   59,   51,   60,
+   53,   57,   61,   64,   69,   75,   62,   72,  129,   74,
+   78,   80,   82,   83,   84,  144,   97,   73,   89,   96,
+   99,  104,  100,  102,  106,  111,  110,  116,   90,  117,
+  109,  118,  122,  124,  128,  125,  131,  113,  126,  151,
+  152,  136,  134,  138,  154,  137,  139,  147,  155,  145,
+  150,  153,  146,  156,  157,  149,  159,  158,  130,
 };
-static const short yycheck[] = {                        258,
-  257,  261,  260,  259,  265,   -1,  261,
+static const short yycheck[] = {                         51,
+  267,  266,  266,  257,  267,  258,  266,  262,  270,  281,
+  267,  262,  271,  262,  266,  262,  272,   69,  282,  262,
+  283,   73,  289,  288,  291,  285,  283,  279,  264,  263,
+  262,  266,  273,  262,  262,  265,  263,  270,   90,  263,
+  284,   93,  262,  262,   96,  266,  262,  269,  274,  263,
+  275,  268,  263,  262,  291,  262,  287,  272,  110,  277,
+  268,  262,  265,  263,  262,  267,  263,  290,  281,  274,
+  263,  262,  278,  268,  266,  263,  286,  263,  290,  263,
+  284,  262,  262,  266,  263,  275,  263,   91,  287,  141,
+  142,  266,  268,  263,  146,  277,  263,  262,  266,  273,
+  263,  263,  280,  263,  263,  278,  263,  279,  113,
 };
 #define YYFINAL 2
 #ifndef YYDEBUG
 #define YYDEBUG 1
 #endif
-#define YYMAXTOKEN 265
+#define YYMAXTOKEN 291
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? (YYMAXTOKEN + 1) : (a))
 #if YYDEBUG
 static const char *yyname[] = {
@@ -119,15 +225,76 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"ATTR","LESS","MORE","EQ","QUOTE",
-"XML_VERSION_OPEN","XML_VERSION_CLOSE","TAG_VALUE","ATTR_VALUE",
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"XML_DESC","DOCTYPE","PACKAGE",
+"TAG_NAME","ATTR_NAME","LESS","MORE","EQ","QUOTE","CLOSE","INLINE_MORE",
+"TAG_VALUE","ATTR_VALUE","PACKAGE_TAG","PACKAGE_ATTRIBUTE_NAME","METADATA_TAG",
+"DC_METADATA_TAG","DC_METADATA_ATTRIBUTE_NAME","DC_IDENTIFIER_TAG",
+"DC_IDENTIFIER_ATTRIBUTE_NAME","DC_TITLE_TAG","DC_TYPE_TAG","DC_CREATOR_TAG",
+"DC_CREATOR_ATTRIBUTE_NAME","MANIFEST_TAG","ITEM_TAG","ITEM_ATTRIBUTE_NAME",
+"SPINE_TAG","ITEMREF_TAG","ITEMREF_ATTRIBUTE_NAME","GUIDE_TAG","REFERENCE_TAG",
+"REFERENCE_ATTRIBUTE_NAME","ID_ATTRIBUTE_NAME","HREF_ATTRIBUTE_NAME",
 "illegal-symbol",
 };
 static const char *yyrule[] = {
 "$accept : root",
-"root : xmlVersion",
-"xmlVersion : LESS attr MORE",
-"attr : ATTR attrVal",
+"root : XML_DESC DOCTYPE package",
+"package : packageStart packageBody packageEnd",
+"packageStart : LESS PACKAGE_TAG PACKAGE_ATTRIBUTE_NAME attrVal MORE",
+"packageBody : metadata manifest spine guide",
+"packageEnd : LESS CLOSE PACKAGE_TAG MORE",
+"metadata : metadataStart metadataBody metadataEnd",
+"metadataStart : LESS METADATA_TAG MORE",
+"metadataBody : dcMetadata",
+"metadataEnd : LESS CLOSE METADATA_TAG MORE",
+"dcMetadata : dcMetadataStart dcMetadataIdentifier dcMetadataTitle dcMetadataType dcMetadataCreators dcMetadataEnd",
+"dcMetadataStart : LESS DC_METADATA_TAG DC_METADATA_ATTRIBUTE_NAME attrVal DC_METADATA_ATTRIBUTE_NAME attrVal MORE",
+"dcMetadataEnd : LESS CLOSE DC_METADATA_TAG MORE",
+"dcMetadataIdentifier : dcMetadataIdentifierStart dcMetadataIdentifierBody dcMetadataIdentifierEnd",
+"dcMetadataIdentifierStart : LESS DC_IDENTIFIER_TAG ID_ATTRIBUTE_NAME attrVal MORE",
+"dcMetadataIdentifierBody : TAG_VALUE",
+"dcMetadataIdentifierEnd : LESS CLOSE DC_IDENTIFIER_TAG MORE",
+"dcMetadataTitle : dcMetadataTitleStart dcMetadataTitleBody dcMetadataTitleEnd",
+"dcMetadataTitleStart : LESS DC_TITLE_TAG MORE",
+"dcMetadataTitleBody : TAG_VALUE",
+"dcMetadataTitleEnd : LESS CLOSE DC_TITLE_TAG MORE",
+"dcMetadataType : dcMetadataTypeStart dcMetadataTypeBody dcMetadataTypeEnd",
+"dcMetadataTypeStart : LESS DC_TYPE_TAG MORE",
+"dcMetadataTypeBody : TAG_VALUE",
+"dcMetadataTypeEnd : LESS CLOSE DC_TYPE_TAG MORE",
+"dcMetadataCreators : dcMetadataCreators dcMetadataCreator",
+"dcMetadataCreators :",
+"dcMetadataCreator : dcMetadataCreatorStart dcMetadataCreatorBody dcMetadataCreatorEnd",
+"dcMetadataCreatorStart : LESS DC_CREATOR_TAG DC_CREATOR_ATTRIBUTE_NAME attrVal MORE",
+"dcMetadataCreatorBody : TAG_VALUE",
+"dcMetadataCreatorEnd : LESS CLOSE DC_CREATOR_TAG MORE",
+"manifest : manifestStart items manifestEnd",
+"manifestStart : LESS MANIFEST_TAG MORE",
+"manifestEnd : LESS CLOSE MANIFEST_TAG MORE",
+"items : items item",
+"items :",
+"item : itemStart itemAttributes itemEnd",
+"item : itemStart HREF_ATTRIBUTE_NAME attrVal itemAttributes itemEnd",
+"itemStart : LESS ITEM_TAG ID_ATTRIBUTE_NAME attrVal",
+"itemAttributes : itemAttributes itemAttribute",
+"itemAttributes :",
+"itemAttribute : ITEM_ATTRIBUTE_NAME attrVal",
+"itemEnd : INLINE_MORE",
+"spine : spineStart itemrefs spineEnd",
+"spineStart : LESS SPINE_TAG MORE",
+"spineEnd : LESS CLOSE SPINE_TAG MORE",
+"itemrefs : itemrefs itemref",
+"itemrefs :",
+"itemref : LESS ITEMREF_TAG ITEMREF_ATTRIBUTE_NAME attrVal INLINE_MORE",
+"guide : guideStart references guideEnd",
+"guideStart : LESS GUIDE_TAG MORE",
+"guideEnd : LESS CLOSE GUIDE_TAG MORE",
+"references : references reference",
+"references :",
+"reference : LESS REFERENCE_TAG referenceAttributes INLINE_MORE",
+"referenceAttributes : referenceAttributes referenceAttribute",
+"referenceAttributes :",
+"referenceAttribute : REFERENCE_ATTRIBUTE_NAME attrVal",
+"referenceAttribute : HREF_ATTRIBUTE_NAME attrVal",
 "attrVal : EQ QUOTE ATTR_VALUE QUOTE",
 
 };
@@ -166,7 +333,7 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 33 "analyzer.y"
+#line 142 "analyzer.y"
 
 void yyerror(char* error) {
     printf("Error {%d}: %s; Data: %s\n", yylineno, error, yytext);
@@ -175,7 +342,7 @@ void yyerror(char* error) {
 int main() {
     return yyparse();
 }
-#line 177 "y.tab.c"
+#line 344 "y.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
