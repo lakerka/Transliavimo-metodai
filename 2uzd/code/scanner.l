@@ -16,10 +16,11 @@
 #include <stdlib.h>
 #include "y.tab.h"
 #include "./removeCmnt.h"
+int isExpressionTagValue = 0;
 
 %}
 
-%s TAG ATTRIBUTE ATTRIBUTE_VAL TAG_VAL
+%s TAG ATTRIBUTE ATTRIBUTE_VAL TAG_VAL EXPRESSION_TAG
 
 blank \ |\n|\r\n|\t
 quoted \"[^\"]*\"
@@ -151,6 +152,40 @@ dc dc:
         fprintf(stderr, "[TAG:TAG:%s]\n", yytext); 
         BEGIN ATTRIBUTE;
         return REFERENCE_TAG; 
+    }
+
+    var {
+        fprintf(stderr, "[TAG:TAG:%s]\n", yytext); 
+        return VAR_TAG; 
+    }
+
+    expression {
+        fprintf(stderr, "[TAG:TAG:%s]\n", yytext); 
+        return EXPRESSION_TAG; 
+    }
+}
+
+<EXPRESSION_TAG>{
+
+    {blank} {}
+
+    {more} {
+        fprintf(stderr, "[EXPRESSION_TAG:MORE:%s]\n", yytext); 
+        return MORE;
+    }
+
+    [A-Za-z]+ {
+        fprintf(stderr, "[EXPRESSION_TAG:VAR:%s]\n", yytext); 
+        return VAR_NAME;
+    }
+
+    [()+\-*]|:= {
+        fprintf(stderr, "[EXPRESSION_TAG:SYMB:%s]\n", yytext); 
+        return yytext;
+    }
+    . {
+        unput(yytext[yyleng-1]);
+        BEGIN INITIAL;
     }
 }
 

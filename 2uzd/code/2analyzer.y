@@ -40,11 +40,10 @@ void yyerror(char*);
 %token ID_ATTRIBUTE_NAME 
 %token HREF_ATTRIBUTE_NAME 
 
-
 %token VAR_NAME 
 
-%token VARS_TAG
 %token EXPRESSION_TAG
+%token VARS_TAG 
 %token VAR_TAG NAME_ATTRIBUTE_NAME VALUE_ATTRIBUTE_NAME
 
 %%
@@ -52,22 +51,16 @@ void yyerror(char*);
 root: XML_DESC DOCTYPE package;
     
 /*package*/
-package: packageStart metadata manifest spine guide vars expressions packageEnd ;
-packageStart: LESS PACKAGE_TAG PACKAGE_ATTRIBUTE_NAME attrVal MORE ;
-packageEnd: LESS CLOSE PACKAGE_TAG MORE ;
-
+package: LESS vars MORE ;
 
 /*vars*/
-vars: varsStart varList varsEnd
-varsStart: LESS VARS_TAG MORE
-varsEnd: LESS CLOSE VARS_TAG MORE
-varList: varList var
+vars: vars var
     |
     ;
 
-expressions: expressions expression
-           |
-           ;
+/*expressions: expressions expressions*/
+           /*|*/
+           /*;*/
 
 /*metadata*/
 metadata: metadataStart metadataBody metadataEnd ;
@@ -158,13 +151,7 @@ referenceAttribute: REFERENCE_ATTRIBUTE_NAME attrVal
 
 /*var*/
 var: LESS VAR_TAG NAME_ATTRIBUTE_NAME attrVal VALUE_ATTRIBUTE_NAME attrVal INLINE_MORE 
-   {
-    
-   }
-   ;
    
-/*expression*/
-expression: EXPRESSION_TAG;
 
 attrVal: EQ QUOTE ATTR_VALUE QUOTE ;
 

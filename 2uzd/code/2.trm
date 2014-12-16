@@ -34,5 +34,13 @@
 		<reference type="toc" title="Table of Contents" href="oeb1.html#toc" />
 		<reference type="glossary" title="Definitions" href="oeb1.html#glos" />
     </guide>
+
+    <vars>
+        <var name="a" value="2"/>
+        <var name="b" value="3"/>
+        <var name="c" value="5"/>
+        <var name="d" value="7"/>
+    </vars>
+
 </package>
 
